@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/login/Login";
 import DataKaryawan from "./pages/dataKaryawan/DataKaryawan";
+import Loader from "./components/Loader/Loader";
 
 export default function RoutePages() {
+  const [loading, setLoading] = useState(false);
+
   const dataResponse = [
     {
       id: 1,
@@ -31,10 +35,21 @@ export default function RoutePages() {
     },
   ];
 
+  const doLoad = () => {
+    setLoading((prev) => !prev);
+  };
+
   return (
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/datakaryawan" element={<DataKaryawan dataResponse={dataResponse} />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route
+          path="/datakaryawan"
+          element={<DataKaryawan dataResponse={dataResponse} />}
+          doLoad={doLoad}
+        />
+      </Routes>
+      <Loader open={loading} />
+    </>
   );
 }

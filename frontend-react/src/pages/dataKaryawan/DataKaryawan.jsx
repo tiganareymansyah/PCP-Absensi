@@ -17,11 +17,48 @@ import { DeleteForever, ManageSearch, Tune } from "@mui/icons-material";
 import Layout from "../../components/Layout/Layout";
 import Alert from "../../components/Alert/Alert";
 import Select, { components } from "react-select";
+import AddIcon from "@mui/icons-material/Add";
 
 export default function DataKaryawan(props) {
   console.log("Data Karyawan", props);
 
-  const [listDataKaryawan, setListDataKaryawan] = useState([]);
+  const [listDataKaryawan, setListDataKaryawan] = useState([
+    {
+      id_karyawan: "111",
+      nama_lengkap: "Hadi Kusuma",
+      tanggal_lahir: "17 Agustus 1945",
+    },
+    {
+      id_karyawan: "112",
+      nama_lengkap: "Tigana Reymansyah",
+      tanggal_lahir: "17 Agustus 1946",
+    },
+    {
+      id_karyawan: "113",
+      nama_lengkap: "Fazlulsyah Reza",
+      tanggal_lahir: "17 Agustus 1947",
+    },
+    {
+      id_karyawan: "114",
+      nama_lengkap: "Imam Syafi'i Pasaribu",
+      tanggal_lahir: "17 Agustus 1948",
+    },
+    {
+      id_karyawan: "115",
+      nama_lengkap: "Muhammad Abduh Laden Hutabarat",
+      tanggal_lahir: "17 Agustus 1949",
+    },
+    {
+      id_karyawan: "116",
+      nama_lengkap: "Ilham",
+      tanggal_lahir: "17 Agustus 1950",
+    },
+    {
+      id_karyawan: "117",
+      nama_lengkap: "Simon Andreas",
+      tanggal_lahir: "17 Agustus 1951",
+    },
+  ]);
   const [pageListDataKaryawan, setPageListDataKaryawan] = useState(1);
   const [detailListDataKaryawan, setDetailListDataKaryawan] = useState();
   const [openDetail, setOpenDetail] = useState(false);
@@ -67,14 +104,12 @@ export default function DataKaryawan(props) {
 
     inputUppercase: {
       fontFamily: "Roboto, sans-serif",
-      // fontWeight: "bold",
       textTransform: "uppercase",
       WebkitTextFillColor: "black",
     },
 
     inputCapitalize: {
       fontFamily: "Roboto, sans-serif",
-      // fontWeight: "bold",
       textTransform: "capitalize",
       WebkitTextFillColor: "black",
     },
@@ -83,10 +118,8 @@ export default function DataKaryawan(props) {
       "& .MuiInputBase-input": {
         color: "black !important",
         fontSize: 17,
-        // fontWeight: "600",
         fontFamily: "Roboto, sans-serif",
         WebkitTextFillColor: "black !important",
-        //   textTransform: "UPPERCASE",
       },
       "& .MuiOutlinedInput-root": {
         "&.Mui-focused fieldset": {
@@ -101,7 +134,6 @@ export default function DataKaryawan(props) {
       },
       "& .Mui-disabled": {
         borderRadius: "5px",
-        // backgroundColor: "#d8d4d4",
       },
       "&.css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root": {
         padding: "0px",
@@ -136,10 +168,6 @@ export default function DataKaryawan(props) {
       "&:hover": {
         backgroundColor: "#3FA2F6",
       },
-      // backgroundColor: "#367E18",
-      // "&:hover": {
-      //     backgroundColor: "#54B435",
-      // },
     },
 
     buttonPayment: {
@@ -164,17 +192,17 @@ export default function DataKaryawan(props) {
 
     pagination: {
       "& .MuiPaginationItem-root": {
-        color: "#000",
-        borderColor: "#000",
+        color: "#1d113a",
+        borderColor: "#1d113a",
         "&.Mui-selected": {
-          color: "#000",
-          backgroundColor: "#000",
-          borderColor: "#000",
+          color: "#fff",
+          backgroundColor: "#1d113a",
+          borderColor: "#1d113a",
         },
         "&:hover": {
-          color: "#000",
-          backgroundColor: "#0000",
-          borderColor: "#000",
+          color: "#1d113a",
+          backgroundColor: "#fff",
+          borderColor: "#1d113a",
         },
       },
     },
@@ -256,41 +284,70 @@ export default function DataKaryawan(props) {
       <Layout>
         <Box sx={{ margin: "12px" }}>
           <Box className={styles.containerParent}>
-            <Box className={styles.containerChild}>
+            <Box
+              sx={{
+                marginBottom: "10px",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <Typography variant="h6" sx={{ fontWeight: "bold" }}>
                 Data Karyawan
               </Typography>
-              <Select
-                placeholder="filter status"
-                components={{ Control: customControl }}
-                onChange={(state) => handleChangeSelectState("status", state)}
-                value={selectState.status.selectedState}
-                options={selectState.status.states}
-                styles={{
-                  container: (baseStyles, _state) => ({
-                    ...baseStyles,
-                    ...styles.label,
-                    fontSize: 14,
-                    width: "21%",
-                  }),
-                  control: (baseStyles, state) => ({
-                    ...baseStyles,
-                    textIndent: "10px",
-                    backgroundColor: state.isDisabled && "#d8d4d4",
-                  }),
-                  singleValue: (baseStyles, state) => ({
-                    ...baseStyles,
-                    color: "#000000",
-                  }),
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "12px",
                 }}
-                className="form-input"
-              />
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <Button
+                    sx={styles.buttonCekDetail}
+                    startIcon={<AddIcon />}
+                    onClick={() => handleOpenDetail(data)}
+                  >
+                    Tambah
+                  </Button>
+                </Box>
+                <Select
+                  placeholder="filter status"
+                  components={{ Control: customControl }}
+                  onChange={(state) => handleChangeSelectState("status", state)}
+                  value={selectState.status.selectedState}
+                  options={selectState.status.states}
+                  styles={{
+                    container: (baseStyles, _state) => ({
+                      ...baseStyles,
+                      ...styles.label,
+                      fontSize: 14,
+                      // width: "14%",
+                    }),
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      textIndent: "10px",
+                      backgroundColor: state.isDisabled && "#d8d4d4",
+                    }),
+                    singleValue: (baseStyles, state) => ({
+                      ...baseStyles,
+                      color: "#000000",
+                    }),
+                  }}
+                  className="form-input"
+                />
+              </Box>
             </Box>
 
-            <TableContainer
-              component={Paper}
-              className={styles.tableContainer}
-            >
+            <TableContainer component={Paper} className={styles.tableContainer}>
               <Table
                 sx={{ minWidth: 650 }}
                 size="small"
@@ -371,13 +428,15 @@ export default function DataKaryawan(props) {
                     ))}
                   </TableBody>
                 ) : (
-                  <TableRow>
-                    <TableCell colSpan={8} align="center">
-                      <Typography sx={{ fontStyle: "italic" }}>
-                        Tidak ada data karyawan.
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell colSpan={8} align="center">
+                        <Typography sx={{ fontStyle: "italic" }}>
+                          Tidak ada data karyawan.
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
                 )}
               </Table>
             </TableContainer>

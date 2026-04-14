@@ -140,6 +140,8 @@ export default function DataKaryawan(props) {
       },
     },
 
+    // Batas css yang tidak dipindahin dari package mui styles
+
     label: {
       fontWeight: "700",
       fontSize: "18px",
@@ -152,13 +154,13 @@ export default function DataKaryawan(props) {
       cursor: "pointer",
       borderRadius: "6px",
       color: "#fff",
-      backgroundColor: "#0F67B1",
+      backgroundColor: "#2F6B3F",
       "&:hover": {
-        backgroundColor: "#3FA2F6",
+        backgroundColor: "#7FB77E",
       },
     },
 
-    buttonCekDetail: {
+    buttonDetail: {
       padding: "7px 14px",
       textAlign: "center",
       cursor: "pointer",
@@ -170,7 +172,7 @@ export default function DataKaryawan(props) {
       },
     },
 
-    buttonPayment: {
+    buttonDelete: {
       padding: "7px 14px",
       textAlign: "center",
       cursor: "pointer",
@@ -243,14 +245,6 @@ export default function DataKaryawan(props) {
     setMessage(message);
   };
 
-  const handleOpenDetail = (data) => {
-    console.log("Detail List Data Karyawan", value);
-    return;
-
-    setDetailListDataKaryawan(data);
-    setOpenDetail(true);
-  };
-
   const handleCloseAlert = () => {
     setOpenAlert(false);
     if (severity === "successNoReload") {
@@ -258,9 +252,25 @@ export default function DataKaryawan(props) {
     }
   };
 
-  const handleDeleteListDataKaryawan = async (value) => {
+  const handleOpenAdd = () => {
+    console.log("Add Data Karyawan");
+    return;
+
+    setDetailListDataKaryawan(data);
+    setOpenDetail(true);
+  };
+
+  const handleOpenDetail = (value) => {
+    console.log("Detail Data Karyawan", value);
+    return;
+
+    setDetailListDataKaryawan(data);
+    setOpenDetail(true);
+  };
+
+  const handleDeleteDataKaryawan = async (value) => {
     try {
-      console.log("Delete List Data Karyawan", value);
+      console.log("Delete Data Karyawan", value);
       return;
 
       let payload = value;
@@ -312,9 +322,9 @@ export default function DataKaryawan(props) {
                   }}
                 >
                   <Button
-                    sx={styles.buttonCekDetail}
+                    sx={styles.buttonAdd}
                     startIcon={<AddIcon />}
-                    onClick={() => handleOpenDetail(data)}
+                    onClick={() => handleOpenAdd()}
                   >
                     Tambah
                   </Button>
@@ -408,7 +418,7 @@ export default function DataKaryawan(props) {
                             }}
                           >
                             <Button
-                              sx={styles.buttonCekDetail}
+                              sx={styles.buttonDetail}
                               startIcon={<ManageSearch />}
                               onClick={() => handleOpenDetail(data)}
                             >
@@ -416,9 +426,9 @@ export default function DataKaryawan(props) {
                             </Button>
 
                             <Button
-                              sx={styles.buttonPayment}
+                              sx={styles.buttonDelete}
                               startIcon={<DeleteForever />}
-                              onClick={() => handleDeleteListDataKaryawan(data)}
+                              onClick={() => handleDeleteDataKaryawan(data)}
                             >
                               Hapus
                             </Button>

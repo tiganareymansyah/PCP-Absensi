@@ -45,8 +45,7 @@ export default function RoutePages() {
         <Route path="/" element={<Login />} />
         <Route
           path="/datakaryawan"
-          element={<DataKaryawan dataResponse={dataResponse} />}
-          doLoad={doLoad}
+          element={<DataKaryawan dataResponse={dataResponse} doLoad={doLoad} />}
         />
       </Routes>
       <Loader open={loading} />

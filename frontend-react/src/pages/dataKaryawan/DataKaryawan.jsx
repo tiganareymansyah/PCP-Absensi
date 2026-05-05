@@ -18,9 +18,16 @@ import Layout from "../../components/Layout/Layout";
 import Alert from "../../components/Alert/Alert";
 import Select, { components } from "react-select";
 import AddIcon from "@mui/icons-material/Add";
+import FormDialogAdd from "./form/FormDialogAdd";
+import { useMediaQuery } from "react-responsive";
+import { useRegisterPegawaiBaruStyles } from "./style";
+import { formatDateYYYYMMDD } from "../../services/utils";
 
 export default function DataKaryawan(props) {
   console.log("Data Karyawan", props);
+
+  const isMobile = useMediaQuery({ maxWidth: 991 });
+  const classes = useRegisterPegawaiBaruStyles({ isMobile });
 
   const [listDataKaryawan, setListDataKaryawan] = useState([
     {
@@ -59,26 +66,6 @@ export default function DataKaryawan(props) {
       tanggal_lahir: "17 Agustus 1951",
     },
   ]);
-  const [pageListDataKaryawan, setPageListDataKaryawan] = useState(1);
-  const [detailListDataKaryawan, setDetailListDataKaryawan] = useState();
-  const [openDetail, setOpenDetail] = useState(false);
-  const [openAlert, setOpenAlert] = useState(false);
-  const [severity, setSeverity] = useState("");
-  const [title, setTitle] = useState("");
-  const [message, setMessage] = useState("");
-  const [selectState, setSelectState] = useState({
-    status: {
-      selectedState: "",
-      states: [
-        { value: "aktif", label: "AKTIF" },
-        { value: "belum bayar", label: "BELUM BAYAR" },
-        { value: "selesai", label: "SELESAI" },
-        { value: "kadaluarsa", label: "KADALUARSA" },
-      ],
-    },
-  });
-
-  let itemPerPagesListDataKaryawan = 5;
 
   const styles = {
     containerParent: {
@@ -210,6 +197,37 @@ export default function DataKaryawan(props) {
     },
   };
 
+  const [pageListDataKaryawan, setPageListDataKaryawan] = useState(1);
+  const [detailListDataKaryawan, setDetailListDataKaryawan] = useState();
+  const [openDetail, setOpenDetail] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [severity, setSeverity] = useState("");
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectState, setSelectState] = useState({
+    status: {
+      selectedState: "",
+      states: [
+        { value: "aktif", label: "AKTIF" },
+        { value: "belum bayar", label: "BELUM BAYAR" },
+        { value: "selesai", label: "SELESAI" },
+        { value: "kadaluarsa", label: "KADALUARSA" },
+      ],
+    },
+  });
+
+  const [payloadRegisterPegawaiBaru, setPayloadRegisterPegawaiBaru] = useState({
+    id: "",
+    namaLengkap: "",
+    dob: "",
+    jenisKelamin: "",
+    email: "",
+    password: "",
+  });
+
+  let itemPerPagesListDataKaryawan = 5;
+
   const handleChangeSelectState = (name, state) => {
     setSelectState((prev) => ({
       ...prev,
@@ -248,16 +266,30 @@ export default function DataKaryawan(props) {
   const handleCloseAlert = () => {
     setOpenAlert(false);
     if (severity === "successNoReload") {
-      location.href = "/kelola-admin";
+      location.href = "/datakaryawan";
     }
   };
 
-  const handleOpenAdd = () => {
-    console.log("Add Data Karyawan");
-    return;
+  const handleChange = (name, value) => {
+    setPayloadRegisterPegawaiBaru((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-    setDetailListDataKaryawan(data);
-    setOpenDetail(true);
+  const handleOpenAdd = () => {
+    setOpenDialog(true);
+    setPayloadRegisterPegawaiBaru((prev) => ({
+      ...prev,
+      namaLengkap: "",
+      dob: "",
+      jenisKelamin: "",
+      email: "",
+    }));
+  };
+
+  const handleCloseAdd = () => {
+    setOpenDialog(false);
   };
 
   const handleOpenDetail = (value) => {
@@ -266,6 +298,39 @@ export default function DataKaryawan(props) {
 
     setDetailListDataKaryawan(data);
     setOpenDetail(true);
+  };
+
+  const handleAddRegisterPegawaiBaru = async (e) => {
+    e.preventDefault();
+    props.doLoad();
+    try {
+      let dataAdd = {
+        fullname: payloadRegisterPegawaiBaru.namaLengkap,
+        tbt: formatDateYYYYMMDD(payloadRegisterPegawaiBaru.dob),
+        gender: payloadRegisterPegawaiBaru.jenisKelamin,
+        email: payloadRegisterPegawaiBaru.email,
+        password: payloadRegisterPegawaiBaru.password,
+      };
+
+      console.log("Payload Data Baru Karyawan", dataAdd);
+
+      props.doLoad();
+      return;
+
+      // const result = await apiAddRegisterPegawaiBaru({
+      //   body: JSON.stringify(dataAdd),
+      // });
+
+      const { code, status, message, data } = result;
+
+      if (status === "success") {
+        handleAlert(true, "successNoReload", "Success", message);
+        props.doLoad();
+      }
+    } catch (err) {
+      console.log(err);
+      props.doLoad();
+    }
   };
 
   const handleDeleteDataKaryawan = async (value) => {
@@ -288,6 +353,8 @@ export default function DataKaryawan(props) {
       console.log(err);
     }
   };
+
+  // console.log("Data Karyawan Baru")
 
   return (
     <>
@@ -471,6 +538,17 @@ export default function DataKaryawan(props) {
           severity={severity}
           title={title}
           message={message}
+        />
+      )}
+
+      {openDialog && (
+        <FormDialogAdd
+          classes={classes}
+          openDialog={openDialog}
+          payloadRegisterPegawaiBaru={payloadRegisterPegawaiBaru}
+          handleChange={handleChange}
+          handleCloseAdd={handleCloseAdd}
+          handleAddRegisterPegawaiBaru={handleAddRegisterPegawaiBaru}
         />
       )}
     </>

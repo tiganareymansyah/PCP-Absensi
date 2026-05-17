@@ -22,65 +22,89 @@ export const useRegisterPegawaiBaruStyles = makeStyles({
         alignItems: "center"
     },
 
-    calendarContainer: {
-        display: "flex",
-        flexDirection: "row",
-        "& .react-datepicker__portal": {
-            zIndex: "1 !important"
+    datePickerWrapper: {
+        width: "100%",
+
+        "& .react-datepicker-wrapper": {
+            width: "100%",
+        },
+
+        "& .react-datepicker__input-container": {
+            width: "100%",
+        },
+    },
+
+    datePickerPopper: {
+        zIndex: "9999 !important",
+
+        "& .react-datepicker": {
+            fontFamily: "Nunito Sans",
+            borderRadius: "12px",
+            border: "1px solid #e0e0e0",
+            boxShadow: "0px 4px 20px rgba(0,0,0,0.15)",
+            overflow: "hidden",
         },
     },
 
     calendar: {
-        width: "100%",
-        fontFamily: "Nunito Sans",
-        backgroundColor: "white",
-        "& .react-datepicker__day--disabled": {
-            backgroundColor: "#d3d3d3",
-        },
+        border: "none",
+
         "& .react-datepicker__header": {
-            backgroundColor: "white",
-            border: "0px",
-            margin: 0,
+            backgroundColor: "#fff",
+            borderBottom: "1px solid #f0f0f0",
+            paddingTop: "12px",
         },
+
+        "& .react-datepicker__current-month": {
+            color: "#18345c",
+            fontWeight: 700,
+            fontSize: "16px",
+            marginBottom: "10px",
+        },
+
         "& .react-datepicker__day-name": {
             color: "#18345c",
-            padding: "0.7vw",
-            fontSize: 15,
-            paddingBottom: 0,
+            fontWeight: 600,
+            width: "2rem",
+            lineHeight: "2rem",
         },
+
         "& .react-datepicker__day": {
             color: "#18345c",
-            padding: "0.7vw",
+            width: "2rem",
+            lineHeight: "2rem",
+            borderRadius: "8px",
         },
+
         "& .react-datepicker__day:hover": {
-            color: "white",
             backgroundColor: "#18345c",
+            color: "#fff",
         },
-        "& .react-datepicker__current-month": {
-            marginBottom: 4,
+
+        "& .react-datepicker__day--selected": {
+            backgroundColor: "#18345c !important",
+            color: "#fff",
         },
-        "& .react-datepicker__header__dropdown": {
-            paddingBottom: 0,
+
+        "& .react-datepicker__day--keyboard-selected": {
+            backgroundColor: "#315b96",
+            color: "#fff",
         },
+
+        "& .react-datepicker__day--disabled": {
+            color: "#c0c0c0",
+        },
+
         "& .react-datepicker__month-select": {
-            padding: 2,
+            borderRadius: "6px",
+            padding: "4px",
+            border: "1px solid #ddd",
         },
+
         "& .react-datepicker__year-select": {
-            padding: 2,
+            borderRadius: "6px",
+            padding: "4px",
+            border: "1px solid #ddd",
         },
-        // "& .react-datepicker__triangle": {
-        //   fill: 'blue',
-        //   top: '-8px',
-        // },
     },
-
-    datePickerPopper: {
-        zIndex: 3
-    },
-
-    datePickerWrapper: {
-        "& .react-datepicker-wrapper": {
-            width: "100%"
-        }
-    }
 });

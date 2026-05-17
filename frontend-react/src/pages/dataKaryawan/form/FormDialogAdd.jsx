@@ -106,7 +106,7 @@ export default function FormDialogAdd({
   return (
     <>
       <BootstrapDialog
-        onClose={handleCloseAdd}
+        // onClose={handleCloseAdd}
         aria-labelledby="customized-dialog-title"
         open={openDialog}
         PaperProps={{ style: { width: "500px", padding: "20px" } }}
@@ -115,7 +115,7 @@ export default function FormDialogAdd({
           id="customized-dialog-title"
           onClose={handleCloseAdd}
         >
-          Tambah Register Pegawai Baru
+          Tambah Karyawan
         </BootstrapDialogTitle>
 
         <DialogContent dividers>
@@ -140,15 +140,25 @@ export default function FormDialogAdd({
                   yearDropdownItemNumber={100}
                   maxDate={new Date()}
                   scrollableYearDropdown
+                  popperPlacement="bottom-start"
+                  withPortal
                   popperClassName={classes.datePickerPopper}
                   className={classes.calendarContainer}
                   calendarClassName={classes.calendar}
                   selected={
-                    payloadRegisterPegawaiBaru.dob &&
-                    new Date(payloadRegisterPegawaiBaru.dob)
+                    payloadRegisterPegawaiBaru.dob
+                      ? new Date(payloadRegisterPegawaiBaru.dob)
+                      : null
                   }
                   onChangeRaw={(event) => {
                     const rawInput = event.target.value;
+
+                    // kalau kosong reset value
+                    if (!rawInput) {
+                      handleChange("dob", null);
+                      return;
+                    }
+
                     const isValidInput =
                       /^[0-3]?[0-9]\/[0-1]?[0-9]\/[0-9]{4}$/.test(rawInput);
 
@@ -172,11 +182,12 @@ export default function FormDialogAdd({
                       InputProps={{
                         inputComponent: MaskedInput,
                         endAdornment: (
-                          <CalendarToday sx={{ paddingBottom: "6px" }} />
+                          <CalendarToday
+                            sx={{ paddingBottom: "6px", cursor: "pointer" }}
+                          />
                         ),
                       }}
                       sx={{
-                        cursor: "pointer",
                         "& .Mui-disabled": {
                           WebkitTextFillColor: "black !important",
                           background: "#ffffff",

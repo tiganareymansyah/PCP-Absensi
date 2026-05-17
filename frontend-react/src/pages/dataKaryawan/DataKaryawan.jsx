@@ -218,7 +218,6 @@ export default function DataKaryawan(props) {
   });
 
   const [payloadRegisterPegawaiBaru, setPayloadRegisterPegawaiBaru] = useState({
-    id: "",
     namaLengkap: "",
     dob: "",
     jenisKelamin: "",
@@ -285,6 +284,7 @@ export default function DataKaryawan(props) {
       dob: "",
       jenisKelamin: "",
       email: "",
+      password: "",
     }));
   };
 
@@ -354,7 +354,7 @@ export default function DataKaryawan(props) {
     }
   };
 
-  // console.log("Data Karyawan Baru")
+  console.log("Data Karyawan Baru", payloadRegisterPegawaiBaru);
 
   return (
     <>

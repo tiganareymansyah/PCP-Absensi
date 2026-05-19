@@ -63,18 +63,13 @@ function BootstrapDialogTitle(props) {
   );
 }
 
-// BootstrapDialogTitle.propTypes = {
-//   children: PropTypes.node,
-//   onClose: PropTypes.func.isRequired,
-// };
-
-export default function FormDialogAdd({
+export default function FormDialogDetail({
   classes,
-  openDialog,
-  payloadNewKaryawan,
+  openDetail,
+  detailDataKaryawan,
   handleChange,
-  handleCloseAdd,
-  handleAddNewKaryawan,
+  handleCloseDetail,
+  handleDetailNewKaryawan,
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -103,31 +98,32 @@ export default function FormDialogAdd({
     );
   });
 
+  console.log("Detail Karyawan", detailDataKaryawan);
+
   return (
     <>
       <BootstrapDialog
-        // onClose={handleCloseAdd}
         aria-labelledby="customized-dialog-title"
-        open={openDialog}
+        open={openDetail}
         PaperProps={{ style: { width: "500px", padding: "20px" } }}
       >
         <BootstrapDialogTitle
           id="customized-dialog-title"
-          onClose={handleCloseAdd}
+          onClose={handleCloseDetail}
         >
-          Tambah Karyawan
+          Detail Karyawan
         </BootstrapDialogTitle>
 
         <DialogContent dividers>
           <Box>
-            <form onSubmit={(e) => handleAddNewKaryawan(e)}>
+            <form onSubmit={(e) => handleDetailNewKaryawan(e)}>
               <TextField
                 label="Nama Lengkap"
                 name="namaLengkap"
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                value={payloadNewKaryawan.namaLengkap}
+                value={detailDataKaryawan.nama_lengkap}
                 onChange={(e) => handleChange("namaLengkap", e.target.value)}
               />
 
@@ -146,8 +142,8 @@ export default function FormDialogAdd({
                   className={classes.calendarContainer}
                   calendarClassName={classes.calendar}
                   selected={
-                    payloadNewKaryawan.dob
-                      ? new Date(payloadNewKaryawan.dob)
+                    detailDataKaryawan.dob
+                      ? new Date(detailDataKaryawan.dob)
                       : null
                   }
                   onChangeRaw={(event) => {
@@ -242,7 +238,7 @@ export default function FormDialogAdd({
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                value={payloadNewKaryawan.email}
+                value={detailDataKaryawan.email}
                 onChange={(e) => handleChange("email", e.target.value)}
               />
 
@@ -256,7 +252,7 @@ export default function FormDialogAdd({
                 <OutlinedInput
                   id="password"
                   label="Password"
-                  value={payloadNewKaryawan.password}
+                  value={detailDataKaryawan.password}
                   onChange={(e) => handleChange("password", e.target.value)}
                   type={showPassword ? "text" : "password"}
                   endAdornment={

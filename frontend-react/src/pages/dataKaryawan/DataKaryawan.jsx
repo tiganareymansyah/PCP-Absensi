@@ -20,50 +20,51 @@ import Select, { components } from "react-select";
 import AddIcon from "@mui/icons-material/Add";
 import FormDialogAdd from "./form/FormDialogAdd";
 import { useMediaQuery } from "react-responsive";
-import { useRegisterPegawaiBaruStyles } from "./style";
-import { formatDateYYYYMMDD } from "../../services/utils";
+import { useNewKaryawanStyles } from "./style";
+import { formatDateIndonesia, formatDateYYYYMMDD } from "../../services/utils";
+import FormDialogDetail from "./form/FormDialogDetail";
 
 export default function DataKaryawan(props) {
-  console.log("Data Karyawan", props);
+  console.log("Data Props", props);
 
   const isMobile = useMediaQuery({ maxWidth: 991 });
-  const classes = useRegisterPegawaiBaruStyles({ isMobile });
+  const classes = useNewKaryawanStyles({ isMobile });
 
   const [listDataKaryawan, setListDataKaryawan] = useState([
     {
       id_karyawan: "111",
       nama_lengkap: "Hadi Kusuma",
-      tanggal_lahir: "17 Agustus 1945",
+      dob: "1945-08-17",
     },
     {
       id_karyawan: "112",
       nama_lengkap: "Tigana Reymansyah",
-      tanggal_lahir: "17 Agustus 1946",
+      dob: "1946-08-17",
     },
     {
       id_karyawan: "113",
       nama_lengkap: "Fazlulsyah Reza",
-      tanggal_lahir: "17 Agustus 1947",
+      dob: "1947-08-17",
     },
     {
       id_karyawan: "114",
       nama_lengkap: "Imam Syafi'i Pasaribu",
-      tanggal_lahir: "17 Agustus 1948",
+      dob: "1948-08-17",
     },
     {
       id_karyawan: "115",
       nama_lengkap: "Muhammad Abduh Laden Hutabarat",
-      tanggal_lahir: "17 Agustus 1949",
+      dob: "1949-08-17",
     },
     {
       id_karyawan: "116",
       nama_lengkap: "Ilham",
-      tanggal_lahir: "17 Agustus 1950",
+      dob: "1950-08-17",
     },
     {
       id_karyawan: "117",
       nama_lengkap: "Simon Andreas",
-      tanggal_lahir: "17 Agustus 1951",
+      dob: "1951-08-17",
     },
   ]);
 
@@ -198,7 +199,7 @@ export default function DataKaryawan(props) {
   };
 
   const [pageListDataKaryawan, setPageListDataKaryawan] = useState(1);
-  const [detailListDataKaryawan, setDetailListDataKaryawan] = useState();
+  const [detailDataKaryawan, setDetailDataKaryawan] = useState();
   const [openDetail, setOpenDetail] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [severity, setSeverity] = useState("");
@@ -217,7 +218,7 @@ export default function DataKaryawan(props) {
     },
   });
 
-  const [payloadRegisterPegawaiBaru, setPayloadRegisterPegawaiBaru] = useState({
+  const [payloadNewKaryawan, setPayloadNewKaryawan] = useState({
     namaLengkap: "",
     dob: "",
     jenisKelamin: "",
@@ -270,7 +271,7 @@ export default function DataKaryawan(props) {
   };
 
   const handleChange = (name, value) => {
-    setPayloadRegisterPegawaiBaru((prev) => ({
+    setPayloadNewKaryawan((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -278,7 +279,7 @@ export default function DataKaryawan(props) {
 
   const handleOpenAdd = () => {
     setOpenDialog(true);
-    setPayloadRegisterPegawaiBaru((prev) => ({
+    setPayloadNewKaryawan((prev) => ({
       ...prev,
       namaLengkap: "",
       dob: "",
@@ -292,24 +293,27 @@ export default function DataKaryawan(props) {
     setOpenDialog(false);
   };
 
-  const handleOpenDetail = (value) => {
-    console.log("Detail Data Karyawan", value);
-    return;
+  const handleOpenDetail = (data) => {
+    console.log("Detail Data Karyawan", data);
 
-    setDetailListDataKaryawan(data);
+    setDetailDataKaryawan(data);
     setOpenDetail(true);
   };
 
-  const handleAddRegisterPegawaiBaru = async (e) => {
+  const handleCloseDetail = () => {
+    setOpenDetail(false);
+  };
+
+  const handleAddNewKaryawan = async (e) => {
     e.preventDefault();
     props.doLoad();
     try {
       let dataAdd = {
-        fullname: payloadRegisterPegawaiBaru.namaLengkap,
-        tbt: formatDateYYYYMMDD(payloadRegisterPegawaiBaru.dob),
-        gender: payloadRegisterPegawaiBaru.jenisKelamin,
-        email: payloadRegisterPegawaiBaru.email,
-        password: payloadRegisterPegawaiBaru.password,
+        fullname: payloadNewKaryawan.namaLengkap,
+        tbt: formatDateYYYYMMDD(payloadNewKaryawan.dob),
+        gender: payloadNewKaryawan.jenisKelamin,
+        email: payloadNewKaryawan.email,
+        password: payloadNewKaryawan.password,
       };
 
       console.log("Payload Data Baru Karyawan", dataAdd);
@@ -317,7 +321,40 @@ export default function DataKaryawan(props) {
       props.doLoad();
       return;
 
-      // const result = await apiAddRegisterPegawaiBaru({
+      // const result = await apiAddNewKaryawan({
+      //   body: JSON.stringify(dataAdd),
+      // });
+
+      const { code, status, message, data } = result;
+
+      if (status === "success") {
+        handleAlert(true, "successNoReload", "Success", message);
+        props.doLoad();
+      }
+    } catch (err) {
+      console.log(err);
+      props.doLoad();
+    }
+  };
+
+  const handleDetailNewKaryawan = async (e) => {
+    e.preventDefault();
+    props.doLoad();
+    try {
+      let dataAdd = {
+        fullname: payloadNewKaryawan.namaLengkap,
+        tbt: formatDateYYYYMMDD(payloadNewKaryawan.dob),
+        gender: payloadNewKaryawan.jenisKelamin,
+        email: payloadNewKaryawan.email,
+        password: payloadNewKaryawan.password,
+      };
+
+      console.log("Payload Data Baru Karyawan", dataAdd);
+
+      props.doLoad();
+      return;
+
+      // const result = await apiDetailPegawaiBaru({
       //   body: JSON.stringify(dataAdd),
       // });
 
@@ -354,7 +391,7 @@ export default function DataKaryawan(props) {
     }
   };
 
-  console.log("Data Karyawan Baru", payloadRegisterPegawaiBaru);
+  console.log("Data Karyawan", mapListDataKaryawan);
 
   return (
     <>
@@ -472,7 +509,7 @@ export default function DataKaryawan(props) {
                           align="center"
                           sx={{ textTransform: "capitalize" }}
                         >
-                          {data.tanggal_lahir}
+                          {formatDateIndonesia(data.dob)}
                         </TableCell>
                         <TableCell
                           sx={{ display: "flex", justifyContent: "center" }}
@@ -545,10 +582,21 @@ export default function DataKaryawan(props) {
         <FormDialogAdd
           classes={classes}
           openDialog={openDialog}
-          payloadRegisterPegawaiBaru={payloadRegisterPegawaiBaru}
+          payloadNewKaryawan={payloadNewKaryawan}
           handleChange={handleChange}
           handleCloseAdd={handleCloseAdd}
-          handleAddRegisterPegawaiBaru={handleAddRegisterPegawaiBaru}
+          handleAddNewKaryawan={handleAddNewKaryawan}
+        />
+      )}
+
+      {openDetail && (
+        <FormDialogDetail
+          classes={classes}
+          openDetail={openDetail}
+          detailDataKaryawan={detailDataKaryawan}
+          handleChange={handleChange}
+          handleCloseDetail={handleCloseDetail}
+          handleDetailNewKaryawan={handleDetailNewKaryawan}
         />
       )}
     </>

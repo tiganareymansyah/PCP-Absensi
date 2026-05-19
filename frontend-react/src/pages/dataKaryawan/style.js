@@ -1,6 +1,6 @@
 import { makeStyles } from "@mui/styles";
 
-export const useRegisterPegawaiBaruStyles = makeStyles({
+export const useNewKaryawanStyles = makeStyles({
     containerParent: {
         marginLeft: "10vw", 
         marginRight: "10vw", 

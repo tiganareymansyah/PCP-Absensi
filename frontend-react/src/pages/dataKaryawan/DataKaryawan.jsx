@@ -23,6 +23,7 @@ import { useMediaQuery } from "react-responsive";
 import { useNewKaryawanStyles } from "./style";
 import { formatDateIndonesia, formatDateYYYYMMDD } from "../../services/utils";
 import FormDialogDetail from "./form/FormDialogDetail";
+import { apiAddNewKaryawan } from "../../api/api";
 
 export default function DataKaryawan(props) {
   console.log("Data Props", props);
@@ -309,8 +310,8 @@ export default function DataKaryawan(props) {
     props.doLoad();
     try {
       let dataAdd = {
-        fullname: payloadNewKaryawan.namaLengkap,
-        tbt: formatDateYYYYMMDD(payloadNewKaryawan.dob),
+        namalengkap: payloadNewKaryawan.namaLengkap,
+        dob: formatDateYYYYMMDD(payloadNewKaryawan.dob),
         gender: payloadNewKaryawan.jenisKelamin,
         email: payloadNewKaryawan.email,
         password: payloadNewKaryawan.password,
@@ -318,12 +319,9 @@ export default function DataKaryawan(props) {
 
       console.log("Payload Data Baru Karyawan", dataAdd);
 
-      props.doLoad();
-      return;
-
-      // const result = await apiAddNewKaryawan({
-      //   body: JSON.stringify(dataAdd),
-      // });
+      const result = await apiAddNewKaryawan({
+        body: JSON.stringify(dataAdd),
+      });
 
       const { code, status, message, data } = result;
 

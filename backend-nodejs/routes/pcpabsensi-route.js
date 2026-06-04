@@ -3,21 +3,37 @@ import { client } from "../postgresql.js";
 import { generateUUID } from "../config/utilities.js";
 
 export async function karyawanData(req, res) {
-    console.log(req.body);
+    try {
+        const salt = await bcrypt.genSalt();
+        const hash = await bcrypt.hash(req.body.password, salt);
 
-    const salt = await bcrypt.genSalt();
-    const hash = await bcrypt.hash(req.body.password, salt);
+        const newIdKaryawan = await generateUUID();
 
-    const newIdKaryawan = generateUUID();
+        await client.query(
+            `INSERT INTO user_data
+            (id_karyawan, nama_lengkap, dob, gender, email, password)
+            VALUES
+            ('${newIdKaryawan}',
+             '${req.body.nama_lengkap}',
+             '${req.body.dob}',
+             '${req.body.gender}',
+             '${req.body.email}',
+             '${hash}')`
+        );
 
-    console.log(newIdKaryawan); 
+        return res.status(200).json({
+            code: 200,
+            status: "success",
+            message: "Karyawan berhasil ditambahkan",
+        });
 
-    return;
+    } catch (err) {
+        console.log(err);
 
-    await client.query(
-        `INSERT INTO user_data (idkaryawan, namalengkap, dob, gender, email, password) 
-        VALUES ('${newIdKaryawan}', '${req.body.namalengkap}', '${req.body.dob}', '${req.body.gender}', '${hash}')`
-    );
-
-    res.send("Karyawan Berhasil Ditambahkan");
+        return res.status(500).json({
+            code: 500,
+            status: "error",
+            message: err.message,
+        });
+    }
 }

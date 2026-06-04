@@ -310,14 +310,12 @@ export default function DataKaryawan(props) {
     props.doLoad();
     try {
       let dataAdd = {
-        namalengkap: payloadNewKaryawan.namaLengkap,
+        nama_lengkap: payloadNewKaryawan.namaLengkap,
         dob: formatDateYYYYMMDD(payloadNewKaryawan.dob),
         gender: payloadNewKaryawan.jenisKelamin,
         email: payloadNewKaryawan.email,
         password: payloadNewKaryawan.password,
       };
-
-      console.log("Payload Data Baru Karyawan", dataAdd);
 
       const result = await apiAddNewKaryawan({
         body: JSON.stringify(dataAdd),

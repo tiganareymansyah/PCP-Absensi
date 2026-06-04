@@ -11,17 +11,17 @@ export async function generateUUID() {
 
     // Cari ID terakhir hari ini
     const result = await client.query(`
-        SELECT idkaryawan
+        SELECT id_karyawan
         FROM user_data
-        WHERE idkaryawan LIKE '${prefix}%'
-        ORDER BY idkaryawan DESC
+        WHERE id_karyawan LIKE '${prefix}%'
+        ORDER BY id_karyawan DESC
         LIMIT 1
     `);
 
     let urut = "01";
 
     if (result.rows.length > 0) {
-        const lastId = result.rows[0].idkaryawan;
+        const lastId = result.rows[0].id_karyawan;
         const lastNumber = parseInt(lastId.slice(-2), 10);
         urut = String(lastNumber + 1).padStart(2, "0");
     }

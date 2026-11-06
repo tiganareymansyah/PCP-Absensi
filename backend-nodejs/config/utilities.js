@@ -12,7 +12,7 @@ export async function generateUUID() {
     // Cari ID terakhir hari ini
     const result = await client.query(`
         SELECT id_karyawan
-        FROM user_data
+        FROM data_karyawan
         WHERE id_karyawan LIKE '${prefix}%'
         ORDER BY id_karyawan DESC
         LIMIT 1

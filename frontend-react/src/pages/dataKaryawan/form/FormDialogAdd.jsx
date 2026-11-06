@@ -123,12 +123,12 @@ export default function FormDialogAdd({
             <form onSubmit={(e) => handleAddNewKaryawan(e)}>
               <TextField
                 label="Nama Lengkap"
-                name="namaLengkap"
+                name="fullName"
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                value={payloadNewKaryawan.namaLengkap}
-                onChange={(e) => handleChange("namaLengkap", e.target.value)}
+                value={payloadNewKaryawan.fullName}
+                onChange={(e) => handleChange("fullName", e.target.value)}
               />
 
               <Box className={classes.datePickerWrapper}>

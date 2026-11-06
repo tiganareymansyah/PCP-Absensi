@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.static("public"));
 
-// Data User
+// Data Karyawan
 app.post("/api/add-karyawan", karyawanData);
 
 app.listen(3000, () => console.log("Server Berjalan..."));

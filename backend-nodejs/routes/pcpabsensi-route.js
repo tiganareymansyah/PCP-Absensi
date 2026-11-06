@@ -10,11 +10,11 @@ export async function karyawanData(req, res) {
         const newIdKaryawan = await generateUUID();
 
         await client.query(
-            `INSERT INTO user_data
-            (id_karyawan, nama_lengkap, dob, gender, email, password)
+            `INSERT INTO data_karyawan
+            (id_karyawan, fullname, dob, gender, email, password)
             VALUES
             ('${newIdKaryawan}',
-             '${req.body.nama_lengkap}',
+             '${req.body.fullname}',
              '${req.body.dob}',
              '${req.body.gender}',
              '${req.body.email}',

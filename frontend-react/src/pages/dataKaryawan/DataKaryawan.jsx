@@ -220,7 +220,7 @@ export default function DataKaryawan(props) {
   });
 
   const [payloadNewKaryawan, setPayloadNewKaryawan] = useState({
-    namaLengkap: "",
+    fullName: "",
     dob: "",
     jenisKelamin: "",
     email: "",
@@ -282,7 +282,7 @@ export default function DataKaryawan(props) {
     setOpenDialog(true);
     setPayloadNewKaryawan((prev) => ({
       ...prev,
-      namaLengkap: "",
+      fullName: "",
       dob: "",
       jenisKelamin: "",
       email: "",
@@ -310,7 +310,7 @@ export default function DataKaryawan(props) {
     props.doLoad();
     try {
       let dataAdd = {
-        nama_lengkap: payloadNewKaryawan.namaLengkap,
+        fullname: payloadNewKaryawan.fullName,
         dob: formatDateYYYYMMDD(payloadNewKaryawan.dob),
         gender: payloadNewKaryawan.jenisKelamin,
         email: payloadNewKaryawan.email,
@@ -338,7 +338,7 @@ export default function DataKaryawan(props) {
     props.doLoad();
     try {
       let dataAdd = {
-        fullname: payloadNewKaryawan.namaLengkap,
+        fullname: payloadNewKaryawan.fullName,
         tbt: formatDateYYYYMMDD(payloadNewKaryawan.dob),
         gender: payloadNewKaryawan.jenisKelamin,
         email: payloadNewKaryawan.email,
@@ -499,7 +499,7 @@ export default function DataKaryawan(props) {
                           align="center"
                           sx={{ textTransform: "capitalize" }}
                         >
-                          {data.nama_lengkap}
+                          {data.fullname}
                         </TableCell>
                         <TableCell
                           align="center"

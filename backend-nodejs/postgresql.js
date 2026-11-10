@@ -6,7 +6,8 @@ export const client = new Client({
     host: "localhost",
     user: "postgres",
     password: "sakalite2502",
-    database: "db_pcp_absensi"
+    // database: "db_pcp_absensi"
+    database: "postgres"
 });
 
 await client.connect();

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -23,7 +23,7 @@ import { useMediaQuery } from "react-responsive";
 import { useNewKaryawanStyles } from "./style";
 import { formatDateIndonesia, formatDateYYYYMMDD } from "../../services/utils";
 import FormDialogDetail from "./form/FormDialogDetail";
-import { apiAddNewKaryawan } from "../../api/api";
+import { apiGetDataKaryawan, apiAddNewKaryawan } from "../../api/api";
 
 export default function DataKaryawan(props) {
   console.log("Data Props", props);
@@ -229,6 +229,10 @@ export default function DataKaryawan(props) {
 
   let itemPerPagesListDataKaryawan = 5;
 
+  useEffect(() => {
+    handleGetDataKaryawan();
+  }, []);
+
   const handleChangeSelectState = (name, state) => {
     setSelectState((prev) => ({
       ...prev,
@@ -305,6 +309,23 @@ export default function DataKaryawan(props) {
     setOpenDetail(false);
   };
 
+  const handleGetDataKaryawan = async () => {
+    props.doLoad();
+    try {
+      const result = await apiGetDataKaryawan();
+
+      const { code, status, message, data } = result;
+
+      if (status === "success") {
+        setListDataKaryawan(data);
+        props.doLoad();
+      }
+    } catch (err) {
+      console.log(err);
+      props.doLoad();
+    }
+  };
+
   const handleAddNewKaryawan = async (e) => {
     e.preventDefault();
     props.doLoad();
@@ -333,7 +354,7 @@ export default function DataKaryawan(props) {
     }
   };
 
-  const handleDetailNewKaryawan = async (e) => {
+  const handleDetailDataKaryawan = async (e) => {
     e.preventDefault();
     props.doLoad();
     try {
@@ -478,6 +499,12 @@ export default function DataKaryawan(props) {
                       Tanggal Lahir
                     </TableCell>
                     <TableCell sx={{ fontWeight: "bold" }} align="center">
+                      Jenis Kelamin
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }} align="center">
+                      Email
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "bold" }} align="center">
                       Actions
                     </TableCell>
                   </TableRow>
@@ -506,6 +533,17 @@ export default function DataKaryawan(props) {
                           sx={{ textTransform: "capitalize" }}
                         >
                           {formatDateIndonesia(data.dob)}
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          sx={{ textTransform: "uppercase" }}
+                        >
+                          {data.gender}
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                        >
+                          {data.email}
                         </TableCell>
                         <TableCell
                           sx={{ display: "flex", justifyContent: "center" }}
@@ -592,7 +630,7 @@ export default function DataKaryawan(props) {
           detailDataKaryawan={detailDataKaryawan}
           handleChange={handleChange}
           handleCloseDetail={handleCloseDetail}
-          handleDetailNewKaryawan={handleDetailNewKaryawan}
+          handleDetailDataKaryawan={handleDetailDataKaryawan}
         />
       )}
     </>

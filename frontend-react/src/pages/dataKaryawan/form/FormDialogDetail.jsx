@@ -69,7 +69,7 @@ export default function FormDialogDetail({
   detailDataKaryawan,
   handleChange,
   handleCloseDetail,
-  handleDetailNewKaryawan,
+  handleDetailDataKaryawan,
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -116,7 +116,7 @@ export default function FormDialogDetail({
 
         <DialogContent dividers>
           <Box>
-            <form onSubmit={(e) => handleDetailNewKaryawan(e)}>
+            <form onSubmit={(e) => handleDetailDataKaryawan(e)}>
               <TextField
                 label="Nama Lengkap"
                 name="namaLengkap"

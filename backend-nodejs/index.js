@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
-import { karyawanData } from "./routes/pcpabsensi-route.js";
+import { getKaryawanData, addKaryawanData } from "./routes/pcpabsensi-route.js";
 
 const app = express();
 
@@ -18,6 +18,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Data Karyawan
-app.post("/api/add-karyawan", karyawanData);
+app.get("/api/get-karyawan", getKaryawanData);
+app.post("/api/add-karyawan", addKaryawanData);
 
 app.listen(3000, () => console.log("Server Berjalan..."));

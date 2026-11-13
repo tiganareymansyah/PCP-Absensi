@@ -31,44 +31,6 @@ export default function DataKaryawan(props) {
   const isMobile = useMediaQuery({ maxWidth: 991 });
   const classes = useNewKaryawanStyles({ isMobile });
 
-  const [listDataKaryawan, setListDataKaryawan] = useState([
-    {
-      id_karyawan: "111",
-      nama_lengkap: "Hadi Kusuma",
-      dob: "1945-08-17",
-    },
-    {
-      id_karyawan: "112",
-      nama_lengkap: "Tigana Reymansyah",
-      dob: "1946-08-17",
-    },
-    {
-      id_karyawan: "113",
-      nama_lengkap: "Fazlulsyah Reza",
-      dob: "1947-08-17",
-    },
-    {
-      id_karyawan: "114",
-      nama_lengkap: "Imam Syafi'i Pasaribu",
-      dob: "1948-08-17",
-    },
-    {
-      id_karyawan: "115",
-      nama_lengkap: "Muhammad Abduh Laden Hutabarat",
-      dob: "1949-08-17",
-    },
-    {
-      id_karyawan: "116",
-      nama_lengkap: "Ilham",
-      dob: "1950-08-17",
-    },
-    {
-      id_karyawan: "117",
-      nama_lengkap: "Simon Andreas",
-      dob: "1951-08-17",
-    },
-  ]);
-
   const styles = {
     containerParent: {
       marginLeft: "10vw",
@@ -199,6 +161,7 @@ export default function DataKaryawan(props) {
     },
   };
 
+  const [listDataKaryawan, setListDataKaryawan] = useState([]);
   const [pageListDataKaryawan, setPageListDataKaryawan] = useState(1);
   const [detailDataKaryawan, setDetailDataKaryawan] = useState();
   const [openDetail, setOpenDetail] = useState(false);

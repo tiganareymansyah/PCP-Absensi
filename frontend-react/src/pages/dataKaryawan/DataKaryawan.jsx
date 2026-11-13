@@ -163,7 +163,6 @@ export default function DataKaryawan(props) {
 
   const [listDataKaryawan, setListDataKaryawan] = useState([]);
   const [pageListDataKaryawan, setPageListDataKaryawan] = useState(1);
-  const [detailDataKaryawan, setDetailDataKaryawan] = useState();
   const [openDetail, setOpenDetail] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [severity, setSeverity] = useState("");
@@ -246,7 +245,6 @@ export default function DataKaryawan(props) {
   };
 
   const handleOpenAdd = () => {
-    setOpenDialog(true);
     setPayloadNewKaryawan((prev) => ({
       ...prev,
       fullName: "",
@@ -255,6 +253,8 @@ export default function DataKaryawan(props) {
       email: "",
       password: "",
     }));
+
+    setOpenDialog(true);
   };
 
   const handleCloseAdd = () => {
@@ -262,9 +262,15 @@ export default function DataKaryawan(props) {
   };
 
   const handleOpenDetail = (data) => {
-    console.log("Detail Data Karyawan", data);
+    setPayloadNewKaryawan((prev) => ({
+      ...prev,
+      fullName: data.fullname,
+      dob: data.dob,
+      jenisKelamin: data.gender,
+      email: data.email,
+      password: "",
+    }));
 
-    setDetailDataKaryawan(data);
     setOpenDetail(true);
   };
 
@@ -321,21 +327,28 @@ export default function DataKaryawan(props) {
     e.preventDefault();
     props.doLoad();
     try {
-      let dataAdd = {
-        fullname: payloadNewKaryawan.fullName,
-        tbt: formatDateYYYYMMDD(payloadNewKaryawan.dob),
-        gender: payloadNewKaryawan.jenisKelamin,
-        email: payloadNewKaryawan.email,
-        password: payloadNewKaryawan.password,
-      };
+      let dataDetail;
 
-      console.log("Payload Data Baru Karyawan", dataAdd);
+      if (payloadNewKaryawan?.password === "") {
+        dataDetail = {
+          fullname: payloadNewKaryawan.fullName,
+          tbt: formatDateYYYYMMDD(payloadNewKaryawan.dob),
+          gender: payloadNewKaryawan.jenisKelamin,
+          email: payloadNewKaryawan.email
+        };
+      } else {
+        dataDetail = {
+          password: payloadNewKaryawan.password
+        };
+      }
+
+      console.log("Payload Data Baru Karyawan", dataDetail);
 
       props.doLoad();
       return;
 
       // const result = await apiDetailPegawaiBaru({
-      //   body: JSON.stringify(dataAdd),
+      //   body: JSON.stringify(dataDetail),
       // });
 
       const { code, status, message, data } = result;
@@ -371,7 +384,8 @@ export default function DataKaryawan(props) {
     }
   };
 
-  console.log("Data Karyawan", mapListDataKaryawan);
+  console.log("Okeeeeee", payloadNewKaryawan)
+  // console.log("Data Karyawan", mapListDataKaryawan);
 
   return (
     <>
@@ -458,15 +472,15 @@ export default function DataKaryawan(props) {
                     <TableCell sx={{ fontWeight: "bold" }} align="center">
                       Nama Lengkap
                     </TableCell>
-                    <TableCell sx={{ fontWeight: "bold" }} align="center">
+                    {/* <TableCell sx={{ fontWeight: "bold" }} align="center">
                       Tanggal Lahir
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell sx={{ fontWeight: "bold" }} align="center">
                       Jenis Kelamin
                     </TableCell>
-                    <TableCell sx={{ fontWeight: "bold" }} align="center">
+                    {/* <TableCell sx={{ fontWeight: "bold" }} align="center">
                       Email
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell sx={{ fontWeight: "bold" }} align="center">
                       Actions
                     </TableCell>
@@ -491,23 +505,23 @@ export default function DataKaryawan(props) {
                         >
                           {data.fullname}
                         </TableCell>
-                        <TableCell
+                        {/* <TableCell
                           align="center"
                           sx={{ textTransform: "capitalize" }}
                         >
                           {formatDateIndonesia(data.dob)}
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell
                           align="center"
                           sx={{ textTransform: "uppercase" }}
                         >
                           {data.gender}
                         </TableCell>
-                        <TableCell
+                        {/* <TableCell
                           align="center"
                         >
                           {data.email}
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell
                           sx={{ display: "flex", justifyContent: "center" }}
                         >
@@ -590,7 +604,7 @@ export default function DataKaryawan(props) {
         <FormDialogDetail
           classes={classes}
           openDetail={openDetail}
-          detailDataKaryawan={detailDataKaryawan}
+          payloadNewKaryawan={payloadNewKaryawan}
           handleChange={handleChange}
           handleCloseDetail={handleCloseDetail}
           handleDetailDataKaryawan={handleDetailDataKaryawan}

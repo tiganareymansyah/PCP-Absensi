@@ -206,16 +206,16 @@ export default function FormDialogAdd({
                   row
                   aria-labelledby="demo-row-radio-buttons-group-label"
                   name="row-radio-buttons-group"
+                  value={payloadNewKaryawan.jenisKelamin}
+                  onChange={(e) =>
+                    handleChange("jenisKelamin", e.target.value)
+                  }
                 >
                   <FormControlLabel
                     value="l"
                     control={
                       <Radio
                         color="default"
-                        value="l"
-                        onChange={(e) =>
-                          handleChange("jenisKelamin", e.target.value)
-                        }
                       />
                     }
                     label="Laki-laki"
@@ -225,10 +225,6 @@ export default function FormDialogAdd({
                     control={
                       <Radio
                         color="default"
-                        value="p"
-                        onChange={(e) =>
-                          handleChange("jenisKelamin", e.target.value)
-                        }
                       />
                     }
                     label="Perempuan"

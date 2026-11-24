@@ -23,7 +23,12 @@ import { useMediaQuery } from "react-responsive";
 import { useNewKaryawanStyles } from "./style";
 import { formatDateIndonesia, formatDateYYYYMMDD } from "../../services/utils";
 import FormDialogDetail from "./form/FormDialogDetail";
-import { apiGetDataKaryawan, apiAddNewKaryawan } from "../../api/api";
+import {
+  apiGetDataKaryawan,
+  apiAddDataKaryawan,
+  apiEditDataKaryawan,
+  apiDeleteDataKaryawan,
+} from "../../api/api";
 
 export default function DataKaryawan(props) {
   console.log("Data Props", props);
@@ -180,14 +185,15 @@ export default function DataKaryawan(props) {
       ],
     },
   });
-
   const [payloadNewKaryawan, setPayloadNewKaryawan] = useState({
+    idKaryawan: "",
     fullName: "",
     dob: "",
     jenisKelamin: "",
     email: "",
     password: "",
   });
+  const [value, setValue] = useState(false);
 
   let itemPerPagesListDataKaryawan = 5;
 
@@ -210,11 +216,11 @@ export default function DataKaryawan(props) {
   };
 
   const totalPagesListDataKaryawan = Math.ceil(
-    listDataKaryawan?.length / itemPerPagesListDataKaryawan,
+    listDataKaryawan?.length / itemPerPagesListDataKaryawan
   );
   const mapListDataKaryawan = listDataKaryawan?.slice(
     (pageListDataKaryawan - 1) * itemPerPagesListDataKaryawan,
-    pageListDataKaryawan * itemPerPagesListDataKaryawan,
+    pageListDataKaryawan * itemPerPagesListDataKaryawan
   );
 
   const customControl = ({ children, ...props }) => (
@@ -264,6 +270,7 @@ export default function DataKaryawan(props) {
   const handleOpenDetail = (data) => {
     setPayloadNewKaryawan((prev) => ({
       ...prev,
+      idKaryawan: data.id_karyawan,
       fullName: data.fullname,
       dob: data.dob,
       jenisKelamin: data.gender,
@@ -307,7 +314,7 @@ export default function DataKaryawan(props) {
         password: payloadNewKaryawan.password,
       };
 
-      const result = await apiAddNewKaryawan({
+      const result = await apiAddDataKaryawan({
         body: JSON.stringify(dataAdd),
       });
 
@@ -327,29 +334,28 @@ export default function DataKaryawan(props) {
     e.preventDefault();
     props.doLoad();
     try {
-      let dataDetail;
+      let dataEdit;
 
-      if (payloadNewKaryawan?.password === "") {
-        dataDetail = {
+      if (value === 0) {
+        dataEdit = {
+          checkData: 0,
+          id_karyawan: payloadNewKaryawan.idKaryawan,
           fullname: payloadNewKaryawan.fullName,
-          tbt: formatDateYYYYMMDD(payloadNewKaryawan.dob),
+          dob: formatDateYYYYMMDD(payloadNewKaryawan.dob),
           gender: payloadNewKaryawan.jenisKelamin,
-          email: payloadNewKaryawan.email
+          email: payloadNewKaryawan.email,
         };
       } else {
-        dataDetail = {
-          password: payloadNewKaryawan.password
+        dataEdit = {
+          checkData: 1,
+          id_karyawan: payloadNewKaryawan.idKaryawan,
+          password: payloadNewKaryawan.password,
         };
       }
 
-      console.log("Payload Data Baru Karyawan", dataDetail);
-
-      props.doLoad();
-      return;
-
-      // const result = await apiDetailPegawaiBaru({
-      //   body: JSON.stringify(dataDetail),
-      // });
+      const result = await apiEditDataKaryawan({
+        body: JSON.stringify(dataEdit),
+      });
 
       const { code, status, message, data } = result;
 
@@ -365,13 +371,12 @@ export default function DataKaryawan(props) {
 
   const handleDeleteDataKaryawan = async (value) => {
     try {
-      console.log("Delete Data Karyawan", value);
-      return;
+      const dataDelete = {
+        id_karyawan: value.id_karyawan,
+      };
 
-      let payload = value;
-
-      const result = await apiDeleteDataBooking({
-        body: JSON.stringify(payload),
+      const result = await apiDeleteDataKaryawan({
+        body: JSON.stringify(dataDelete),
       });
 
       const { code, status, message, data } = result;
@@ -383,9 +388,6 @@ export default function DataKaryawan(props) {
       console.log(err);
     }
   };
-
-  console.log("Okeeeeee", payloadNewKaryawan)
-  // console.log("Data Karyawan", mapListDataKaryawan);
 
   return (
     <>
@@ -608,6 +610,8 @@ export default function DataKaryawan(props) {
           handleChange={handleChange}
           handleCloseDetail={handleCloseDetail}
           handleDetailDataKaryawan={handleDetailDataKaryawan}
+          value={value}
+          setValue={setValue}
         />
       )}
     </>

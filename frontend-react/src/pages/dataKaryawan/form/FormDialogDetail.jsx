@@ -103,9 +103,10 @@ export default function FormDialogDetail({
   handleChange,
   handleCloseDetail,
   handleDetailDataKaryawan,
+  value,
+  setValue,
 }) {
   const [showPassword, setShowPassword] = useState(false);
-  const [value, setValue] = useState(false);
 
   const handleInputClick = (e) => {
     if (e && e.target) {
@@ -135,8 +136,6 @@ export default function FormDialogDetail({
     );
   });
 
-  console.log("Isi Value", value);
-
   return (
     <>
       <BootstrapDialog
@@ -158,15 +157,66 @@ export default function FormDialogDetail({
                 value={value}
                 onChange={handleChangeTab}
                 aria-label="basic tabs example"
+                sx={{
+                  "& .MuiTabs-indicator": {
+                    display: "none",
+                  },
+                }}
               >
-                <Tab label="Ubah Data" {...a11yProps(0)} />
-                <Tab label="Ubah Kata Sandi" {...a11yProps(1)} />
+                <Tab
+                  label="Ubah Data"
+                  {...a11yProps(0)}
+                  sx={{
+                    textTransform: "none",
+                    fontWeight: 400,
+                    fontSize: "14px",
+                    color: "#666",
+                    borderRadius: "8px",
+                    minHeight: "40px",
+                    padding: "8px 20px",
+                    margin: "3px",
+
+                    "&:hover": {
+                      backgroundColor: "#3FA2F6",
+                      color: "#eeee",
+                    },
+
+                    "&.Mui-selected": {
+                      backgroundColor: "#0F67B1",
+                      color: "#ffff",
+                    },
+                  }}
+                />
+                <Tab
+                  label="Ubah Kata Sandi"
+                  {...a11yProps(1)}
+                  sx={{
+                    textTransform: "none",
+                    fontWeight: 400,
+                    fontSize: "14px",
+                    color: "#666",
+                    borderRadius: "8px",
+                    minHeight: "40px",
+                    padding: "8px 20px",
+                    margin: "3px",
+
+                    "&:hover": {
+                      backgroundColor: "#3FA2F6",
+                      color: "#eeee",
+                    },
+
+                    "&.Mui-selected": {
+                      backgroundColor: "#0F67B1",
+                      color: "#ffff",
+                    },
+                  }}
+                />
               </Tabs>
             </Box>
             {value !== false && (
               <>
                 <CustomTabPanel value={value} index={0} />
-                <CustomTabPanel value={value} index={1} />  
+                <CustomTabPanel value={value} index={1} />
               </>
             )}
           </Box>
@@ -174,6 +224,28 @@ export default function FormDialogDetail({
           {value === 0 ? (
             <Box>
               <form onSubmit={(e) => handleDetailDataKaryawan(e)}>
+                <TextField
+                  label="Id Karyawan"
+                  name="idKaryawan"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  value={payloadNewKaryawan.idKaryawan}
+                  onChange={(e) => handleChange("idKaryawan", e.target.value)}
+                  disabled
+                  slotProps={{
+                    input: {
+                      classes: {
+                        disabled: classes.disabled,
+                      },
+                      sx: {
+                        caretColor: "transparent",
+                        cursor: "default",
+                      },
+                    },
+                  }}
+                />
+
                 <TextField
                   label="Nama Lengkap"
                   name="fullName"
@@ -299,7 +371,8 @@ export default function FormDialogDetail({
                     type="submit"
                     variant="contained"
                     sx={{
-                      background: "#18345c",
+                      // background: "#18345c",
+                      background: "#1d113a",
                       color: "white",
                       fontWeight: "bold",
                       marginTop: "5px",
@@ -350,7 +423,7 @@ export default function FormDialogDetail({
                     type="submit"
                     variant="contained"
                     sx={{
-                      background: "#18345c",
+                      background: "#1d113a",
                       color: "white",
                       fontWeight: "bold",
                       marginTop: "5px",
@@ -366,6 +439,28 @@ export default function FormDialogDetail({
           ) : (
             <Box>
               <form onSubmit={(e) => handleDetailDataKaryawan(e)}>
+                <TextField
+                  label="Id Karyawan"
+                  name="idKaryawan"
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  value={payloadNewKaryawan.idKaryawan}
+                  onChange={(e) => handleChange("idKaryawan", e.target.value)}
+                  disabled
+                  slotProps={{
+                    input: {
+                      classes: {
+                        disabled: classes.disabled,
+                      },
+                      sx: {
+                        caretColor: "transparent",
+                        cursor: "default",
+                      },
+                    },
+                  }}
+                />
+                
                 <TextField
                   label="Nama Lengkap"
                   name="fullName"
